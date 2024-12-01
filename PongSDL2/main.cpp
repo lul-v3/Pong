@@ -21,7 +21,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
         return -1; // Return non-zero to indicate failure
     }
 
-    return 0; // Return 0 to indicate success
+    return 0;
 }
 
 // Standard entry point for console applications (main function)

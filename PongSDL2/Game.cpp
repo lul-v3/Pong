@@ -188,7 +188,7 @@ void Game::update(float deltaTime)
 		if (paddle2Up) paddle2.y -= paddleSpeed * deltaTime;
 		if (paddle2Down) paddle2.y += paddleSpeed * deltaTime;
 
-		// paddle begrenzung
+		// paddle limitation
 		paddle1.y = std::max(0.0f, std::min(paddle1.y, 600.0f - paddle1.h));
 		paddle2.y = std::max(0.0f, std::min(paddle2.y, 600.0f - paddle2.h));
 
@@ -199,8 +199,8 @@ void Game::update(float deltaTime)
 		// ball wall collision
 		if (newBallY <= 0 || newBallY + ball.h >= 600)
 		{
-			ballVelocityY = -ballVelocityY;							// Y-Geschwindigkeit invertiren
-			//ball.y = std::clamp(newBallY, 0.0f, 600.0f - ball.h);	// Ball bleibt im sichtbaren bereich
+			ballVelocityY = -ballVelocityY;							// Invert Y-velocity
+			//ball.y = std::clamp(newBallY, 0.0f, 600.0f - ball.h);	// Ball remains in the visible area
 			ball.y = SDL_clamp(newBallY, 0.0f, 600.0f - ball.h);
 			Mix_PlayChannel(-1, bouceSound, 0);						// play bounce sound
 		}
@@ -211,9 +211,9 @@ void Game::update(float deltaTime)
 			float relativeIntersectY = (paddle1.y + (paddle1.h)) - (ball.y + (ball.h / 2));
 			float normalizedRelativeY = relativeIntersectY / (paddle1.h / 2);
 
-			ballVelocityX = std::abs(ballVelocityX);		// ball nach rechts ablenken
-			ballVelocityY = -normalizedRelativeY * 300.0f;	// Geschwindigkeit je nach Kontaktpunkt
-			ball.x = paddle1.x + paddle1.w;					// Ball auﬂerhalb des Paddles Platzieren
+			ballVelocityX = std::abs(ballVelocityX);		// deflect the ball to the right
+			ballVelocityY = -normalizedRelativeY * 300.0f;	// speed depending on the contact point
+			ball.x = paddle1.x + paddle1.w;					// Place the ball outside the paddle
 			Mix_PlayChannel(-1, bouceSound, 0);				// play bounce sound
 		}
 
@@ -223,9 +223,9 @@ void Game::update(float deltaTime)
 			float relativeIntersectY = (paddle2.y + (paddle2.h)) - (ball.y + (ball.h / 2));
 			float normalizedRelativeY = relativeIntersectY / (paddle2.h / 2);
 
-			ballVelocityX = -std::abs(ballVelocityX);		// ball nach rechts ablenken
-			ballVelocityY = -normalizedRelativeY * 300.0f;	// Geschwindigkeit je nach Kontaktpunkt
-			ball.x = paddle2.x - paddle2.w;					// Ball auﬂerhalb des Paddles Platzieren
+			ballVelocityX = -std::abs(ballVelocityX);		// deflect the ball to the right
+			ballVelocityY = -normalizedRelativeY * 300.0f;	// speed depending on the contact point
+			ball.x = paddle2.x - paddle2.w;					// Place the ball outside the paddle
 			Mix_PlayChannel(-1, bouceSound, 0);				// play bounce sound
 		}
 
@@ -258,16 +258,10 @@ void Game::render()
 	SDL_RenderFillRectF(window.GetRenderer(), &paddle1);
 	SDL_RenderFillRectF(window.GetRenderer(), &paddle2);
 
-	// render score
 	renderScore();
-
-	// render pause text
 	if(GamePaused) { renderPause(); }
-
-	// render ImGui
 	if (ShowImGui) { renderGUI(); }
 
-	// update window
 	window.present();
 }
 
