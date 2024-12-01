@@ -36,4 +36,4 @@ You can adjust game settings via the ImGui interface:
 
 ## License
 
-This project is licensed under the MIT License. See the LICENSE file for more details.
+This project is licensed under the MIT License. See the [LICENSE](https://github.com/lul-v3/Pong/blob/main/LICENSE) file for more details.
